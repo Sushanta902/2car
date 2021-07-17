@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;
+}
+</style>
+</head>
+<body onload="startGame()">
+<script>
+
+var myGamePiece;
+var myObstacles = [];
+var myScore;
+
+function startGame() {
+    myGamePiece = new component(30, 30, "red", 10, 120);
+    myGamePiece.gravity = 0.05;
+    myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+    myGameArea.start();
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 480;
+        this.canvas.height = 270;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 20);
+        },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function component(width, height, color, x, y, type) {
+    this.type = type;
+    this.score = 0;
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x;
+    this.y = y;
+    this.gravity = 0;
+    this.gravitySpeed = 0;
+    this.update = function() {
+        ctx = myGameArea.context;
+        if (this.type == "text") {
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+    this.newPos = function() {
+        this.gravitySpeed += this.gravity;
+        this.x += this.speedX;
+        this.y += this.speedY + this.gravitySpeed;
+        this.hitBottom();
+    }
+    this.hitBottom = function() {
+        var rockbottom = myGameArea.canvas.height - this.height;
+        if (this.y > rockbottom) {
+            this.y = rockbottom;
+            this.gravitySpeed = 0;
+        }
+    }
+    this.crashWith = function(otherobj) {
+        var myleft = this.x;
+        var myright = this.x + (this.width);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var crash = true;
+        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+            crash = false;
+        }
+        return crash;
+    }
+}
+
+function updateGameArea() {
+    var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+    for (i = 0; i < myObstacles.length; i += 1) {
+        if (myGamePiece.crashWith(myObstacles[i])) {
+            return;
+        } 
+    }
+    myGameArea.clear();
+    myGameArea.frameNo += 1;
+    if (myGameArea.frameNo == 1 || everyinterval(150)) {
+        x = myGameArea.canvas.width;
+        minHeight = 20;
+        maxHeight = 200;
+        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        minGap = 50;
+        maxGap = 200;
+        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        myObstacles.push(new component(10, height, "green", x, 0));
+        myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
+    }
+    for (i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].x += -1;
+        myObstacles[i].update();
+    }
+    myScore.text="SCORE: " + myGameArea.frameNo;
+    myScore.update();
+    myGamePiece.newPos();
+    myGamePiece.update();
+}
+
+function everyinterval(n) {
+    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+    return false;
+}
+
+function accelerate(n) {
+    myGamePiece.gravity = n;
+}
+</script>
+<br>
+<button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">ACCELERATE</button>
+
+</body>
+</html>
+
+
+
+        <div id="car1" class="car1"></div>
+        <div  id ="car2" class="car2"></div>
+
+        <div class="redTrack1"></div>
+        <div class="redTrack2"></div>
+        <div class="cyanTrack1"></div>
+        <div class="cyanTrack2"></div>
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2cars</title>
+    <link rel="stylesheet" href="2car.css">
+
+</head>
+<body>
+        
+
+
+    <div class="container">
+
+        <div class="redTrack1">
+        
+        </div>
+
+        <div class="redTrack2"><div id="car1" class="car1"></div></div>
+        <div class="cyanTrack1"><div  id ="car2" class="car2"></div></div>
+        <div class="cyanTrack2"></div>
+    </div>
+    <div id="food" class="food"></div>
+    <div id="stone" class="stone"></div>
+
+
+
+
+<script type="text/javascript">
+let Fcar = document.getElementById('car1');
+let Scar = document.getElementById('car2');
+// let move = 2;
+let food = document.getElementById('food');
+let stone = document.getElementById('stone');
+let counter = 1;
+
+function ran_num_gen(){
+    var ran_num = Math.round((Math.random()+1)*3);
+    return ran_num;
+}
+
+
+function move(){
+    var ran = Math.round((Math.random()+1)*3);
+    console.log(ran)
+
+}
+
+function generator(){
+    let f_shape = document.createElement("div");
+    f_shape.classList.add('test');
+    document.body.appendChild(f_shape);
+
+}
+generator();
+
+let bool1 = "F"
+let bool2 = "T"
+
+
+
+document.onkeydown = function(e) {
+    switch (e.keyCode) {
+
+
+        case 90:
+                
+                if (bool1==="T"){
+        
+                    Fcar.style.left = "35%"; 
+                    Fcar.style.rotate = "30"; 
+                    bool1 = "F"; 
+                    
+                    break;                 
+                }
+
+                else if(bool1 === "F") {
+                    // alert(Math.floor((Fcar.offsetLeft/window.innerWidth)*100));
+                    Fcar.style.left = "10%";}
+                    bool1 = "T";
+                
+            break;
+        
+
+        case 191:
+
+                if (bool2==="T"){
+        
+                    Scar.style.right = "10%";
+                    bool2 = "F"; 
+                    
+                    break;
+                    
+                }
+                else if(bool2==="F"){
+        
+                    Scar.style.right = "35%";
+                    bool2 = "T";
+
+                }
+            break;
+
+   } 
+};
+</script>
+</body>
+</html>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        body {
+            
+     background: #25337a;
+}
+
+.container {
+     display: flex;
+     width: 100%;
+     height: 97vh;
+     padding: 0;
+     margin: 0;
+
+}
+
+.redTrack1 {
+     padding: 0;
+     margin: 0;
+     display: block;
+     overflow-x: hidden;
+     width: 25%;
+     border-left: solid gray 2px;
+     border-right: solid gray 2px;
+     height: 100%;
+}
+
+.redTrack2 {
+     padding: 0;
+     margin: 0;
+     display: block;
+     overflow-x: hidden;
+     width: 25%;
+     border-right: solid gray 2px;
+     height: 100%;
+}
+
+.cyanTrack1 {
+     padding: 0;
+     margin: 0;
+     display: block;
+     overflow-x: hidden;
+     width: 25%;
+     border-left: solid gray 2px;
+     border-right: solid gray 2px;
+     height: 100%;
+}
+
+.cyanTrack2 {
+     padding: 0;
+     margin: 0;
+     display: block;
+     overflow-x: hidden;
+     width: 25%;
+     border-right: solid gray 2px;
+     height: 100%;
+}
+
+.car1{
+    height: 70px;
+    width: 50px;
+    border-radius: 20%;
+    background-color: cyan;
+    position :absolute;
+    left :35%;
+    top :80%;
+    transition: 0.5s;
+}
+.car2{
+    height: 70px;
+    width: 50px;
+    border-radius: 20%;
+    background-color: red;
+    position :absolute;
+    right :35%;
+    top :80%;
+    transition: 0.5s;
+}
+.food{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: white;
+    border: solid red 10px;
+    position :absolute;
+    left :35%;
+    top :0%;
+    transition:  0.5s;
+    animation: 2s linear movedown;
+}
+
+
+.test{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: white;
+    border: solid red 10px;
+    position :absolute;
+    left :25%;
+    top :0%;
+    transition:  0.5s;
+    animation: 2s linear movedown;
+}
+
+
+
+
+
+
+.stone{
+    height: 30px;
+    width: 30px;
+    border-radius: 10%;
+    background-color: white;
+    border: solid red 10px;
+    position :absolute;
+    right :35%;
+    top :0%;
+    transition: 0.5s;
+    animation: 2s linear movedown;
+}
+@keyframes movedown {
+  from {top: 0%;}
+  to {top: 100%;}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    function generator(){   
+
+    let f_shape = document.createElement("div");
+    f_shape.classList.add('food');
+    f_shape.style.left = ran_position_cyan()+'%';
+    r_track.appendChild(f_shape);
+
+
+}
+    let s_shape = document.createElement("div");
+    s_shape.classList.add('food1'); 
+    s_track.appendChild(s_shape);
+    let x = 0;
+
+setInterval(() => {
+    s_shape.style.top = x+"px";
+if (x > window.innerHeight-90){
+    x= 0;
+    
+    // console.log(x);
+}
+x = x +4;
+},20);
+
+
+
+setInterval(() => { generator(); },1000);

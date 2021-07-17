@@ -163,3 +163,8 @@ user-select: none;
 /*    transition: 0.5s;
     animation: 2s linear movedown;*/
 }
+
+img{
+    position: absolute;
+    display: none;
+}
