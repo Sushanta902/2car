@@ -69,7 +69,7 @@ var counter = 0;
 var lastScore = document.getElementById('last_score');
 var red_track = document.getElementById('red_track');
 var cyan_track = document.getElementById('cyan_track');
-var music = new Audio('bg.mp3');
+var music = new Audio('bg.wav');
 
 var die1 = new Audio('die1.mp3');
 var die2 = new Audio('die2.mp3');
@@ -406,7 +406,7 @@ document.onkeydown = function(e) {
 let bool3 = "F"
 let bool4 = "T"
 
-red_track.addEventListener('mousedown', event => {
+red_track.addEventListener('touchstart', event => {
 
             if (bool3 === "T") {
                 
@@ -435,7 +435,7 @@ red_track.addEventListener('mousedown', event => {
             
 })
 
-cyan_track.addEventListener('mousedown', event => {
+cyan_track.addEventListener('touchstart', event => {
                 if (bool4 === "T") {
 
                 Scar.style.left = "80%";
