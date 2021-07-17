@@ -348,9 +348,13 @@ document.onkeydown = function(e) {
     }
 }; 
 
-red_track.ontouchstart = function red_track(){
 
-            if (bool1 === "T") {
+let bool3 = "F"
+let bool4 = "T"
+
+red_track.addEventListener('mousedown', event => {
+
+            if (bool3 === "T") {
 
                 Fcar.style.left = "35%";
                 Fcar.style.transform = "rotate(40deg)";
@@ -360,25 +364,25 @@ red_track.ontouchstart = function red_track(){
                 }, 250);
 
 
-                bool1 = "F";
+                bool3 = "F";
 
                 
-            } else if (bool1 === "F") {
+            } else if (bool3 === "F") {
                 Fcar.style.transform = "rotate(-40deg)";
                 setTimeout(function() {
                     Fcar.style.transform = "rotate(0deg)";
                 }, 250);
                 Fcar.style.left = "10%";
-                 bool1 = "T";
+                 bool3 = "T";
             }
 
            
 
             
-}
+})
 
-cyan_track.ontouchstart = function cyan_track(){
-                if (bool2 === "T") {
+cyan_track.addEventListener('mousedown', event => {
+                if (bool4 === "T") {
 
                 Scar.style.left = "80%";
                 Scar.style.transform = "rotate(40deg)";
@@ -386,11 +390,11 @@ cyan_track.ontouchstart = function cyan_track(){
                 setTimeout(function() {
                     Scar.style.transform = "rotate(0deg)";
                 }, 250);
-                bool2 = "F";
+                bool4 = "F";
 
                 
 
-            } else if (bool2 === "F") {
+            } else if (bool4 === "F") {
                 Scar.style.transform = "rotate(-40deg)";
 
                 setTimeout(function() {
@@ -398,11 +402,12 @@ cyan_track.ontouchstart = function cyan_track(){
                 }, 250);
 
                 Scar.style.left = "55%";
-                bool2 = "T";
+                bool4 = "T";
 
             }
             
-}
+})
+
 
 
 
