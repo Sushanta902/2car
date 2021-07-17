@@ -9,10 +9,13 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
 
 </head>
-<body>
+<body >
+
+<img id ="explode" src="e.gif" style="mix-blend-mode: screen;width:200px;">
+<img id ="explode1" src="e1.gif" style="mix-blend-mode: screen;width:200px;">
 
 
-<div  id="over"class="over"onclick="window.location.reload()">
+<div  id="over"class="over"onclick="playMusic()">
 <center>
 <p>
 <h1>GAME OVER</h1>
@@ -24,7 +27,10 @@
 <h6 > Wanna play long:Avoid square - Don't miss circle<h6>
 </center>
 </div>
-
+  
+  <audio id="bg" src="music.mp3" muted >
+      
+  </audio>
 
 <div id="score"style="position: absolute;top:10px;right:10px;z-index: 1000;color:white;font-family: 'Azonix';font-size: 3em">0</div>
 
@@ -57,13 +63,21 @@ var counter = 0;
 var lastScore = document.getElementById('last_score');
 var red_track = document.getElementById('red_track');
 var cyan_track = document.getElementById('cyan_track');
+var music = new Audio('bg.mp3');
+
 var die1 = new Audio('die1.mp3');
 var die2 = new Audio('die2.mp3');
 var score = new Audio('score.mp3');
 var score1 = new Audio('score.mp3');
 var myScoreValue = document.getElementById('score');
+var explode = document.getElementById('explode');
+var explode1 = document.getElementById('explode1');
 
 
+function playMusic(){
+    window.location.reload()
+    music.play();
+}
 
 function ranint(min, max) {
     min = Math.ceil(min);
@@ -162,6 +176,12 @@ var cyan_moving = setInterval(() => {
 
             } else if (cyan_shape.className == "stone1") {
                 die1.play();
+                explode1.style.display= 'block';
+                explode1.style.top= pos_cyan['y']-50 +'px';
+                explode1.style.left=  pos_cyan['x']-70 +'px';
+                     setTimeout(()=>{
+                 explode1.style.display= 'none';
+                },1000); 
                 gameOver();
                 Fcar.style.transform = "rotate(360deg)";
                 $('cyan_shape').remove();
@@ -244,6 +264,13 @@ var red_moving = setInterval(() =>
                 } else if (red_shape.className == "stone") {
                     die1.play();
                     gameOver();
+   
+                explode.style.display= 'block';
+                explode.style.top= pos_red['y']-50 +'px';
+                explode.style.left=  pos_red['x']-70 +'px';
+                                setTimeout(()=>{
+                 explode.style.display= 'none';
+                },1000); 
                     Scar.style.transform = "rotate(360deg)";
                     $('red_shape').remove();
                     clearInterval(red_moving);
@@ -266,6 +293,7 @@ var red_moving = setInterval(() =>
                 clearInterval(red_moving);
                 clearInterval(moving);
                 red_shape.style.top = "90%";
+
 
                 gameOver();
 
@@ -358,7 +386,7 @@ red_track.addEventListener('mousedown', event => {
             if (bool3 === "T") {
 
                 Fcar.style.left = "35%";
-                Fcar.style.transform = "rotate(40deg)";
+                Fcar.style.transform = "rotate(50deg)";
 
                 setTimeout(function() {
                     Fcar.style.transform = "rotate(0deg)";
@@ -369,7 +397,7 @@ red_track.addEventListener('mousedown', event => {
 
                 
             } else if (bool3 === "F") {
-                Fcar.style.transform = "rotate(-40deg)";
+                Fcar.style.transform = "rotate(-50deg)";
                 setTimeout(function() {
                     Fcar.style.transform = "rotate(0deg)";
                 }, 250);
@@ -386,7 +414,7 @@ cyan_track.addEventListener('mousedown', event => {
                 if (bool4 === "T") {
 
                 Scar.style.left = "80%";
-                Scar.style.transform = "rotate(40deg)";
+                Scar.style.transform = "rotate(50deg)";
 
                 setTimeout(function() {
                     Scar.style.transform = "rotate(0deg)";
@@ -396,7 +424,7 @@ cyan_track.addEventListener('mousedown', event => {
                 
 
             } else if (bool4 === "F") {
-                Scar.style.transform = "rotate(-40deg)";
+                Scar.style.transform = "rotate(-50deg)";
 
                 setTimeout(function() {
                     Scar.style.transform = "rotate(0deg)";
