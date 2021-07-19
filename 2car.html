@@ -11,6 +11,10 @@
 </head>
 <body >
 
+
+<audio id="myAudio" src="music.mp3" preload="auto">
+</audio>
+<a onClick="togglePlay()"><i style ="position: absolute;top:0;color:white;font-size: 25px;"class="fas fa-volume-up"></i></a>
 <img id ="explode" src="e.gif" style="mix-blend-mode: screen;width:200px;">
 <img id ="explode1" src="e1.gif" style="mix-blend-mode: screen;width:200px;">
 
@@ -25,6 +29,9 @@
 <br>
 <br>
 <h6 > Wanna play long:Avoid square - Don't miss circle<h6>
+<span id="forlaptop"> Controls: 'Z'  -   '/'<span>
+<span id="formobile" style="display: none"> Might lag in our device.<span>
+  <span><a href ="https://www.youtube.com/channel/UCil0CPV624-BWcPIN5ou_pg/videos"><i class="fab fa-youtube-f"></i></a></span>
 </center>
 </div>
   
@@ -63,7 +70,7 @@ var counter = 0;
 var lastScore = document.getElementById('last_score');
 var red_track = document.getElementById('red_track');
 var cyan_track = document.getElementById('cyan_track');
-var music = new Audio('bg.mp3');
+var music = new Audio('bg.wav');
 
 var die1 = new Audio('die1.mp3');
 var die2 = new Audio('die2.mp3');
@@ -72,6 +79,25 @@ var score1 = new Audio('score.mp3');
 var myScoreValue = document.getElementById('score');
 var explode = document.getElementById('explode');
 var explode1 = document.getElementById('explode1');
+
+
+
+
+var myAudio = document.getElementById("myAudio");
+var isPlaying = false;
+
+function togglePlay() {
+  isPlaying ? myAudio.pause() : myAudio.play();
+};
+
+myAudio.onplaying = function() {
+  isPlaying = true;
+};
+myAudio.onpause = function() {
+  isPlaying = false;
+};
+
+
 
 
 function playMusic(){
@@ -322,7 +348,7 @@ document.onkeydown = function(e) {
         case 90:
 
             if (bool1 === "T") {
-
+               
                 Fcar.style.left = "35%";
                 Fcar.style.transform = "rotate(40deg)";
 
@@ -381,10 +407,10 @@ document.onkeydown = function(e) {
 let bool3 = "F"
 let bool4 = "T"
 
-red_track.addEventListener('mousedown', event => {
+red_track.addEventListener('touchstart', event => {
 
             if (bool3 === "T") {
-
+                
                 Fcar.style.left = "35%";
                 Fcar.style.transform = "rotate(50deg)";
 
@@ -410,7 +436,7 @@ red_track.addEventListener('mousedown', event => {
             
 })
 
-cyan_track.addEventListener('mousedown', event => {
+cyan_track.addEventListener('touchstart', event => {
                 if (bool4 === "T") {
 
                 Scar.style.left = "80%";
